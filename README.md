@@ -18,12 +18,16 @@
 
 ## ⚙️ Инициализация Alembic (async)
 В корне проекта выполните:
+
 `alembic init -t async migration`
+
 Будет создана директория **migration/** с шаблонами для асинхронной работы SQLAlchemy.
 
 ## 🧱 Создание миграций
 После описания моделей:
+
 `alembic revision --autogenerate -m "Initial revision"`
+
 Alembic создаст файл в **migration/versions/**
 
 ## 🚀 Применение миграций
@@ -31,25 +35,26 @@ Alembic создаст файл в **migration/versions/**
 
 ## ⏪ Откат миграций
 Откат на одну версию назад:
+
 `alembic downgrade -1`
 
 Откат к конкретной версии:
+
 `alembic downgrade <revision_id>`
 
 # ⚠️ ВАЖНО: Работа с ENUM
 ## ✅ Всегда указывать create_type=False
-"""python
+```python
 sa.Column(
     "status",
     sa.Enum("active", "inactive", name="user_status",create_type=False), nullable=False
 )
-"""
+
 Без этого Alembic может падать при повторных миграциях. 
 
 ## 🧹 Корректное удаление ENUM при downgrade
 В downgrade():
-"""python
+```python
 def downgrade():
     op.drop_table("users")
     op.execute("DROP TYPE IF EXISTS user_status")
-"""
