@@ -44,17 +44,20 @@ Alembic создаст файл в **migration/versions/**
 
 # ⚠️ ВАЖНО: Работа с ENUM
 ## ✅ Всегда указывать create_type=False
-```python
+```
+"""python
 sa.Column(
     "status",
     sa.Enum("active", "inactive", name="user_status",create_type=False), nullable=False
 )
-
+"""
 Без этого Alembic может падать при повторных миграциях. 
 
 ## 🧹 Корректное удаление ENUM при downgrade
-В downgrade():
-```python
+В `downgrade()`:
+```
+"""python
 def downgrade():
     op.drop_table("users")
     op.execute("DROP TYPE IF EXISTS user_status")
+"""
