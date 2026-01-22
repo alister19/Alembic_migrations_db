@@ -1,0 +1,6 @@
+env/
+.env
+.git
+.vscode/
+command_file.txt
+__pycache__/
